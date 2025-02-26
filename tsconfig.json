@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native",
+    "target": "ES2022", // Use ES2022 ou mais recente
+    "lib": ["ES2022", "DOM"], // Inclua suporte ao ES2022 e DOM, se necessário
+    "strict": true, // Recomendado para garantir a segurança do tipo
+    "useDefineForClassFields": true, // Certifique-se de que você está usando a versão correta de campos de classe
+    "esModuleInterop": true
+  }
+}
+  
