@@ -1,6 +1,7 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
+    '@babel/plugin-transform-flow-strip-types',
     '@babel/plugin-transform-private-methods',
     '@babel/plugin-transform-class-properties',
     '@babel/plugin-transform-private-property-in-object',
@@ -12,19 +13,25 @@ module.exports = {
         [
           '@babel/plugin-transform-class-properties',
           {
-            loose: true, // Configurar o "loose" para todas as transformações de propriedades de classe
+            loose: true,
           },
         ],
         [
           '@babel/plugin-transform-private-methods',
           {
-            loose: true, // Garantir "loose" para os métodos privados
+            loose: true,
           },
         ],
         [
           '@babel/plugin-transform-private-property-in-object',
           {
-            loose: true, // Garantir "loose" para propriedades privadas
+            loose: true,
+          },
+        ],
+        [
+          '@babel/plugin-transform-flow-strip-types',
+          {
+            loose: true,
           },
         ],
       ],

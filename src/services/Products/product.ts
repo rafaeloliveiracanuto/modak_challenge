@@ -13,7 +13,7 @@ export const fetchProducts = async (limit: number = 10, skip: number = 0): Promi
 
 export const fetchCategories = async (): Promise<ProductCategoriesResponse> => {
   try {
-    const response = await api.get('/products/category-list');
+    const response = await api.get('/products/categories');
     return response.data;
   } catch (error) {
     console.error('Error fetching product categories:', error);
@@ -21,9 +21,9 @@ export const fetchCategories = async (): Promise<ProductCategoriesResponse> => {
   }
 };
 
-export const fetchProductsByCategory = async (category: string): Promise<ProductListResponse> => {
+export const fetchProductsByCategory = async (category: string, limit: number = 10, skip: number = 0): Promise<ProductListResponse> => {
   try {
-    const response = await api.get(`/products/category/${category}`);
+    const response = await api.get(`/products/category/${category}?limit=${limit}&skip=${skip}`);
     return response.data.products;
   } catch (error) {
     console.error('Error fetching products', error);

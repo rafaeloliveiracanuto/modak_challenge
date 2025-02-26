@@ -17,6 +17,10 @@ export type ProductListResponse = {
   limit: number;
 };
 
-export type ProductCategory = string;
+export interface ProductCategory {
+  slug: string;
+  name: string;
+  url: string;
+};
 
 export type ProductCategoriesResponse = ProductCategory[];
