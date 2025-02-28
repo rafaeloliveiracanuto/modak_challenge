@@ -95,6 +95,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 10,
   },
+  backText: {
+    fontSize: 18,
+    color: 'blue',
+  },
 });
 
 export default styles;

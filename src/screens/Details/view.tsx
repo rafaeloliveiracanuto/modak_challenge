@@ -1,13 +1,27 @@
 import React, {FC, memo} from 'react';
 import styles from './styles';
 import { DetailsViewProps } from './Models/index';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, Text, View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 
 const DetailsView: FC<DetailsViewProps> = ({
   navigation,
   product,
+  productError,
+  isLoadingProduct,
   }) => {
+    if (isLoadingProduct) {
+      return (
+        <View style={styles.page}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    }
+    
+    if (productError) {
+      return <Text>Error: {productError?.message}</Text>;
+    }
+    
     return (
       <View style={styles.page}>
         <View style={styles.card}>
@@ -15,7 +29,7 @@ const DetailsView: FC<DetailsViewProps> = ({
             <Image source={{ uri: product.thumbnail }} style={styles.thumbnail} />
             <Text style={styles.title}>{product.title}</Text>
             <Text style={styles.category}>{`Category: ${product.category}`}</Text>
-            <Text style={styles.brand}>{`Brand: ${product.brand}`}</Text>
+            {product.brand && <Text style={styles.brand}>{`Brand: ${product.brand}`}</Text>}
             <Text style={styles.description}>{product.description}</Text>
     
             <View style={styles.ratingContainer}>

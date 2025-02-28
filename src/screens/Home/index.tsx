@@ -1,16 +1,27 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import HomeView from './view';
+import { useFocusEffect } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories, fetchProducts, fetchProductsByCategory, fetchSortedProducts } from '../../services/Products/product';
 import { ProductCategoriesResponse, ProductListResponse } from '../../services/Products/Models/index';
 import {RadioButtonProps} from 'react-native-radio-buttons-group';
 import { HomeProps } from '../../routes/Models/index';
 
-const Home: FC<HomeProps> = ({navigation}) => {
+const Home: FC<HomeProps> = ({navigation, route}) => {
+  const { category, id } = route?.params ?? {};
+  console.log({category})
   const [limit, setLimit] = useState<number>(10);
   const [skip, setSkip] = useState<number>(0);    
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(category);
   const [selectedSortValue, setSelectedSortValue] = useState<string>('1');
+
+  useFocusEffect(
+    useCallback(() => {
+      if (id) {
+        navigation.navigate('Details', { id });
+      }
+    }, [id, navigation])
+  );
   
   const sortButtons: RadioButtonProps[] = useMemo(() => ([
     {
@@ -53,10 +64,10 @@ const Home: FC<HomeProps> = ({navigation}) => {
       if (selectedSortValue !== '1') {
         const order = selectedSortValue === '3' ? 'desc' : 'asc';
         const sortValue = selectedSortValue === '3' ? 'rating' : 'price';
-        return fetchSortedProducts(sortValue, order, selectedCategory); 
+        return fetchSortedProducts(sortValue, order, selectedCategory, limit, skip); 
       }
       
-      return selectedCategory === null
+      return selectedCategory === undefined
         ? fetchProducts(limit, skip)
         : fetchProductsByCategory(selectedCategory, limit, skip);
       },

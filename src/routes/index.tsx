@@ -3,11 +3,22 @@ import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import Home from '../screens/Home';
 import Details from '../screens/Details/index';
+import { Linking } from 'react-native';
+
+const linking = {
+  prefixes: ['modakChallenge://'], 
+  config: {
+    screens: {
+      Home: 'products/category/:category',
+      Details: 'products/:id',
+    },
+  },
+};
 
 const Stack = createStackNavigator();
 
 const RouteStacks = (
-  <Stack.Navigator initialRouteName='Home'>
+  <Stack.Navigator initialRouteName='Home' >
     <Stack.Screen
       name='Home'
       component={Home}
@@ -24,7 +35,7 @@ const RouteStacks = (
 );
 
 const Routes = () => {
-  return <NavigationContainer>{RouteStacks}</NavigationContainer>;
+  return <NavigationContainer linking={linking}>{RouteStacks}</NavigationContainer>;
 };
 
 export default Routes;

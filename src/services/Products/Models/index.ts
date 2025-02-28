@@ -17,6 +17,8 @@ export type ProductListResponse = {
   limit: number;
 };
 
+export type ProductResponse = Product;
+
 export interface ProductCategory {
   slug: string;
   name: string;

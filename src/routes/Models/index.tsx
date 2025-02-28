@@ -2,7 +2,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Product } from '../../services/Products/Models/index';
 
 export type RootStackParamList = {
-  Home: undefined;
+  Home: { id?: number };
   Details: { product: Product }; 
 };
 

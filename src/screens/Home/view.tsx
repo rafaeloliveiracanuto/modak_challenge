@@ -47,9 +47,9 @@ const HomeView: FC<HomeViewProps> = ({
         <TouchableOpacity
           style={[
             styles.category,
-            { backgroundColor: selectedCategory === null ? '#007BFF' : '#ccc' },
+            { backgroundColor: selectedCategory === undefined ? '#007BFF' : '#ccc' },
           ]}
-          onPress={() => setSelectedCategory(null)}
+          onPress={() => setSelectedCategory(undefined)}
         >
           <Text style={styles.categoryText}>All</Text>
         </TouchableOpacity>
