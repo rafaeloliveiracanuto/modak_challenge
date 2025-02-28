@@ -31,9 +31,10 @@ export const fetchProductsByCategory = async (category: string, limit: number = 
   }
 };
 
-export const fetchSortedProducts = async (param: string): Promise<ProductListResponse> => {
+export const fetchSortedProducts = async (param: string, order: string, category?: string | null): Promise<ProductListResponse> => {
   try {
-    const response = await api.get(`/products?sortBy=${param}&order=asc'`);
+    const path = !category ? `/products?sortBy=${param}&order=${order}` : `/products/category/${category}?sortBy=${param}&order=${order}`;
+    const response = await api.get(path);
     return response.data.products;
   } catch (error) {
     console.error('Error fetching products', error);
