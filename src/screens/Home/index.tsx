@@ -45,12 +45,22 @@ const Home: FC<HomeProps> = ({navigation, route}) => {
     if (selectedButton === '3') setSelectedSortValue('3'); 
   };
 
-  const { data: categories, refetch: refetchCategories, error: categoriesError, isLoading: isLoadingCategories } = useQuery<ProductCategoriesResponse>({
+  const { data: categories,
+    refetch: refetchCategories,
+    error: categoriesError,
+    isLoading: isLoadingCategories
+  } = useQuery<ProductCategoriesResponse>({
     queryKey: ['categories'],
     queryFn: fetchCategories,
   });
 
-  const { data: products, refetch: refetchProducts, isLoading: isLoadingProducts, error: productsError } = useQuery({
+  const {
+    data: products,
+    refetch: refetchProducts,
+    isLoading: isLoadingProducts,
+    error: productsError,
+    isFetching: isRefetchingProducts,
+  } = useQuery({
     queryKey: ["products", selectedCategory || 'all', limit, skip, getValueById(selectedSortValue)],
     queryFn: () => {
       if (selectedSortValue !== '1') {
@@ -72,6 +82,7 @@ const Home: FC<HomeProps> = ({navigation, route}) => {
       categories={categories}
       refetchProducts={refetchProducts}
       refetchCategories={refetchCategories}
+      isRefetchingProducts={isRefetchingProducts}
       categoriesError={categoriesError}
       isLoadingCategories={isLoadingCategories}
       products={products}

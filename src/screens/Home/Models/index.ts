@@ -17,5 +17,6 @@ export interface HomeViewProps {
   sortButtons: RadioButtonProps[];
   selectedSortValue: string;
   handleSortSelectionChange: (value: string) => void; 
+  isRefetchingProducts: boolean;
   navigation: StackNavigationProp<RootStackParamList, "Home">;
 }

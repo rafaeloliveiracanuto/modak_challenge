@@ -1,5 +1,5 @@
-import React, { FC, memo } from 'react';
-import { ActivityIndicator, FlatList, Text, View, TouchableOpacity, Button } from 'react-native';
+import React, { FC } from 'react';
+import { ActivityIndicator, FlatList, Text, View, TouchableOpacity, Button, RefreshControl } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import { styles } from './styles'; 
 import { Product, ProductCategory } from '../../services/Products/Models';
@@ -13,6 +13,7 @@ const HomeView: FC<HomeViewProps> = ({
   isLoadingCategories,
   products,
   refetchProducts,
+  isRefetchingProducts,
   refetchCategories,
   productsError,
   isLoadingProducts,
@@ -97,18 +98,23 @@ const HomeView: FC<HomeViewProps> = ({
         keyExtractor={(item: Product) => String(item.id)}
         renderItem={({ item }: Product) => <ProductItem product={item} />}
         ListEmptyComponent={
+          !isLoadingProducts && !isRefetchingProducts && (
           <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
             <Text style={{ fontSize: 16, color: '#000' }}>No products available.</Text>
           </View>
+          )
         }
         contentContainerStyle={{
           paddingVertical: 10,
           alignItems: 'center',
         }}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isRefetchingProducts} onRefresh={refetchProducts} />
+        }
       />
     </View>
   );
 };
 
-export default memo(HomeView);
+export default HomeView;
