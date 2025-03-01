@@ -99,6 +99,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'blue',
   },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
+    textAlign: 'center',
+  },
 });
 
 export default styles;

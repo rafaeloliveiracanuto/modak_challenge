@@ -3,7 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import Home from '../screens/Home';
 import Details from '../screens/Details/index';
-import { Linking } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native';
 
 const linking = {
   prefixes: ['modakChallenge://'], 
@@ -22,13 +23,19 @@ const RouteStacks = (
     <Stack.Screen
       name='Home'
       component={Home}
-      options={{title: 'Home'}}
+      options={{title: 'Home', headerBackVisible: false, headerLeft: () => null }}
     />
     <Stack.Screen
       name='Details'
       component={Details}
-      options={({navigation}) => ({
+      options={({ navigation }) => ({
         title: 'Details',
+        headerBackVisible: false,
+        headerLeft: () => (
+          <TouchableOpacity style={{ marginLeft: 15 }} onPress={() => navigation.navigate('Home')}>
+            <Icon name='chevron-back' size={30} color='222' />
+          </TouchableOpacity>
+        ),
       })}
     />
   </Stack.Navigator>

@@ -5,13 +5,15 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 export interface HomeViewProps {
   categories: ProductCategory[];
+  refetchCategories: () => Promise<void>;
+  refetchProducts: () => Promise<void>;
   categoriesError: Error | null;
   isLoadingCategories: boolean;
   products: Product[];
   productsError: Error | null;
   isLoadingProducts: boolean;
-  setSelectedCategory: () => null;
-  selectedCategory: string;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectedCategory: string | undefined;
   sortButtons: RadioButtonProps[];
   selectedSortValue: string;
   handleSortSelectionChange: (value: string) => void; 

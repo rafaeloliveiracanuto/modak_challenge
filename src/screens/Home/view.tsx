@@ -1,5 +1,5 @@
 import React, { FC, memo } from 'react';
-import { ActivityIndicator, FlatList, Text, View, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View, TouchableOpacity, Button } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import { styles } from './styles'; 
 import { Product, ProductCategory } from '../../services/Products/Models';
@@ -12,6 +12,8 @@ const HomeView: FC<HomeViewProps> = ({
   categoriesError,
   isLoadingCategories,
   products,
+  refetchProducts,
+  refetchCategories,
   productsError,
   isLoadingProducts,
   setSelectedCategory,
@@ -30,13 +32,15 @@ const HomeView: FC<HomeViewProps> = ({
   }
 
   if (categoriesError || productsError) {
-    return <Text>Error: {categoriesError?.message}</Text>;
-  }
-
-  if (!Array.isArray(categories) || categories.length === 0) {
     return (
       <View style={styles.page}>
-        <Text>No categories available.</Text>
+        <Text style={styles.errorText}>
+          There was an issue loading the data.{"\n"}Please try again later.
+        </Text>
+        <Button
+          title="Retry"
+          onPress={categoriesError ? refetchCategories : refetchProducts}
+        />
       </View>
     );
   }
@@ -70,6 +74,11 @@ const HomeView: FC<HomeViewProps> = ({
           )}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
+          ListEmptyComponent={
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+              <Text style={{ fontSize: 16, color: '#000' }}>No categories available.</Text>
+            </View>
+          }
         />
       </View>
 
@@ -87,6 +96,11 @@ const HomeView: FC<HomeViewProps> = ({
         data={products}
         keyExtractor={(item: Product) => String(item.id)}
         renderItem={({ item }: Product) => <ProductItem product={item} />}
+        ListEmptyComponent={
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+            <Text style={{ fontSize: 16, color: '#000' }}>No products available.</Text>
+          </View>
+        }
         contentContainerStyle={{
           paddingVertical: 10,
           alignItems: 'center',

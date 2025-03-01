@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 const Details: FC<DetailsProps> = ({navigation, route}) => {
   const { product, id } = route.params;
 
-  const { data: productFromID, error: productError, isLoading: isLoadingProduct } = useQuery({
+  const { data: productFromID, refetch: refetchProduct, error: productError, isLoading: isLoadingProduct } = useQuery({
     queryKey: ['product', id], 
     queryFn: () => fetchProductByID(id),
     enabled: !!id,
@@ -17,6 +17,7 @@ const Details: FC<DetailsProps> = ({navigation, route}) => {
     <DetailsView
       navigation={navigation}
       product={product || productFromID}
+      refetchProduct={refetchProduct}
       productError={productError}
       isLoadingProduct={isLoadingProduct}
     />

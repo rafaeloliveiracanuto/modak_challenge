@@ -7,4 +7,5 @@ export interface DetailsViewProps {
   navigation: StackNavigationProp<RootStackParamList, 'Details'>;
   productError: Error | null | undefined;
   isLoadingProduct: boolean;
+  refetchProduct: () => Promise<void>;
 }

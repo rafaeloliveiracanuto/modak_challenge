@@ -8,20 +8,12 @@ import {RadioButtonProps} from 'react-native-radio-buttons-group';
 import { HomeProps } from '../../routes/Models/index';
 
 const Home: FC<HomeProps> = ({navigation, route}) => {
-  const { category, id } = route?.params ?? {};
-  console.log({category})
+  const { category } = route?.params ?? {};
+
   const [limit, setLimit] = useState<number>(10);
   const [skip, setSkip] = useState<number>(0);    
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(category);
   const [selectedSortValue, setSelectedSortValue] = useState<string>('1');
-
-  useFocusEffect(
-    useCallback(() => {
-      if (id) {
-        navigation.navigate('Details', { id });
-      }
-    }, [id, navigation])
-  );
   
   const sortButtons: RadioButtonProps[] = useMemo(() => ([
     {
@@ -53,12 +45,12 @@ const Home: FC<HomeProps> = ({navigation, route}) => {
     if (selectedButton === '3') setSelectedSortValue('3'); 
   };
 
-  const { data: categories, error: categoriesError, isLoading: isLoadingCategories } = useQuery<ProductCategoriesResponse>({
+  const { data: categories, refetch: refetchCategories, error: categoriesError, isLoading: isLoadingCategories } = useQuery<ProductCategoriesResponse>({
     queryKey: ['categories'],
     queryFn: fetchCategories,
   });
 
-  const { data: products, isLoading: isLoadingProducts, error: productsError } = useQuery({
+  const { data: products, refetch: refetchProducts, isLoading: isLoadingProducts, error: productsError } = useQuery({
     queryKey: ["products", selectedCategory || 'all', limit, skip, getValueById(selectedSortValue)],
     queryFn: () => {
       if (selectedSortValue !== '1') {
@@ -78,6 +70,8 @@ const Home: FC<HomeProps> = ({navigation, route}) => {
     <HomeView
       navigation={navigation}
       categories={categories}
+      refetchProducts={refetchProducts}
+      refetchCategories={refetchCategories}
       categoriesError={categoriesError}
       isLoadingCategories={isLoadingCategories}
       products={products}

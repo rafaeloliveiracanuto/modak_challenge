@@ -1,12 +1,13 @@
 import React, {FC, memo} from 'react';
 import styles from './styles';
 import { DetailsViewProps } from './Models/index';
-import { ActivityIndicator, Image, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Button, Image, ScrollView, Text, View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 
 const DetailsView: FC<DetailsViewProps> = ({
   navigation,
   product,
+  refetchProduct,
   productError,
   isLoadingProduct,
   }) => {
@@ -19,7 +20,17 @@ const DetailsView: FC<DetailsViewProps> = ({
     }
     
     if (productError) {
-      return <Text>Error: {productError?.message}</Text>;
+      return (
+        <View style={styles.page}>
+          <Text style={styles.errorText}>
+            There was an issue loading the data.{"\n"}Please try again later.
+          </Text>
+          <Button
+            title="Retry"
+            onPress={refetchProduct}
+          />
+        </View>
+      );
     }
     
     return (
